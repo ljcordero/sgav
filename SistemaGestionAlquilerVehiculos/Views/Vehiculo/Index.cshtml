@@ -1,0 +1,66 @@
+﻿@using SistemaGestionAlquilerVehiculos.Entities
+@model IEnumerable<SistemaGestionAlquilerVehiculos.Models.VehiculoViewModel>
+
+@{
+    ViewData["Title"] = "Vehículos";
+}
+
+<h1>Vehículos</h1>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-primary" role="alert">@ViewBag.Message</div>
+}
+
+<p>
+    <a asp-action="Create">Registrar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Vehículo
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Matricula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoGps)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioAlquiler)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="background-color: @(item.Estado == VehiculoEstado.DISPONIBLE ? "#d1e7dd" : item.Estado == VehiculoEstado.NO_DISPONIBLE ? "#f8d7da" : "#fff3cd");">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Marca) - @Html.DisplayFor(modelItem => item.Modelo) - @Html.DisplayFor(modelItem => item.Year) - @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Matricula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoGps)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrecioAlquiler)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado)
+                </td>
+                <td>
+                    @Html.ActionLink("Modificar", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

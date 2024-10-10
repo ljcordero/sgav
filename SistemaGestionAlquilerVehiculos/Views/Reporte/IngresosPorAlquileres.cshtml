@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SistemaGestionAlquilerVehiculos.Models.IngresosPorAlquileresViewModel>
+
+@{
+    ViewData["Title"] = "Ingresos por alquileres";
+}
+
+<h1>Ingresos por alquileres</h1>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Mes
+            </th>
+            <th>
+                Ingresos
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="background-color: @item.Color;">
+                <td>
+                    @item.Mes
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td>
+                    @if (item.Color == "#d1e7dd")
+                    {
+                        <i class="bi bi-graph-up-arrow"></i>
+                    }
+                    else if (item.Color == "#f8d7da")
+                    {
+                        <i class="bi bi-graph-down-arrow"></i>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

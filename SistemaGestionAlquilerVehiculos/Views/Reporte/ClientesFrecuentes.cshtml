@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SistemaGestionAlquilerVehiculos.Models.ClientesFrecuentesViewModel>
+
+@{
+    ViewData["Title"] = "Clientes frecuentes y su historial de alquileres";
+}
+
+<h1>Clientes frecuentes y su historial de alquileres</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Cantidad de vehículos alquilados
+            </th>
+            <th>
+                Últimos 3 vehículos alquilados
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(x => x.Vehiculos.Count).Take(10))
+        {
+            <tr>
+                <td>
+                    @item.Cliente
+                    @if (item.ClienteBorrado)
+                    {
+                        <p style="color: #ff0000; margin-bottom: 0;">(BORRADO)</p>
+                    }
+                </td>
+                <td>
+                    @item.Vehiculos.Count
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var vehiculo in item.Vehiculos.Take(3))
+                        {
+                            <li>
+                                @vehiculo.Marca - @vehiculo.Modelo - @vehiculo.Color
+                                @if (vehiculo.Borrado)
+                                {
+                                    <p style="color: #ff0000; margin-bottom: 0;">(BORRADO)</p>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

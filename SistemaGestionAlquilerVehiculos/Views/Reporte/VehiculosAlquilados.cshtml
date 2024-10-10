@@ -1,0 +1,64 @@
+﻿@using System.Globalization
+@model IEnumerable<SistemaGestionAlquilerVehiculos.Models.AlquilarVehiculoViewModel>
+
+@{
+    ViewData["Title"] = "Vehículos alquilados y su estado";
+}
+
+<h1>Vehículos alquilados y su estado</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Marca
+            </th>
+            <th>
+                Modelo
+            </th>
+            <th>
+                Año
+            </th>
+            <th>
+                Matrícula
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Fecha de entrega
+            </th>
+            <th>
+                Estado
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(x => DateTime.Now.Date > x.FechaFin.ToUniversalTime().Date))
+        {
+            <tr style="background-color: @(DateTime.Now.Date > item.FechaFin.ToUniversalTime().Date  ? "#f8d7da" : "");">
+                <td>
+                    @item.Vehiculo.Marca
+                </td>
+                <td>
+                    @item.Vehiculo.Modelo
+                </td>
+                <td>
+                    @item.Vehiculo.Year
+                </td>
+                <td>
+                    @item.Vehiculo.Matricula
+                </td>
+                <td>
+                    @item.Cliente.Nombre @item.Cliente.Apellido
+                </td>
+                <td>
+                    @item.FechaFin.ToUniversalTime().ToString("D", new CultureInfo("es-ES"))
+                </td>
+                <td>
+                    @(DateTime.Now.Date > item.FechaFin.ToUniversalTime().Date ? "Retrasado" : "En rango")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

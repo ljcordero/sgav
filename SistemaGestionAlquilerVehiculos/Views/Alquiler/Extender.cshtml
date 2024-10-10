@@ -1,0 +1,64 @@
+﻿@using SistemaGestionAlquilerVehiculos.Entities
+@model SistemaGestionAlquilerVehiculos.Models.AlquilarVehiculoViewModel
+
+@{
+    ViewData["Title"] = "Extender Fecha de Entrega";
+}
+
+<h1>Extender Fecha de Entrega</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Extender">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Vehiculo" class="control-label"></label>
+                <select asp-for="Vehiculo" class="form-control" id="vehiculo">
+                    @foreach (Alquiler alquiler in ViewBag.Alquileres)
+                    {
+                        <option data-fecha-fin="@alquiler.FechaFin.ToUniversalTime().ToString("yyyy-MM-dd")" value="@alquiler.Vehiculo.Id">
+                            @alquiler.Vehiculo.Marca - @alquiler.Vehiculo.Modelo - @alquiler.Vehiculo.Year - @alquiler.Vehiculo.Color
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="Vehiculo" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="FechaFin" class="control-label"></label>
+                <input asp-for="FechaFin" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" id="fechaFin" />
+                <span asp-validation-for="FechaFin" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Extender Fecha" class="btn btn-primary" />
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Listado de Alquileres</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        const vehiculo = document.getElementById("vehiculo");
+        const fechaFin = document.getElementById("fechaFin");
+
+        vehiculo.onchange = (event) => {
+            fechaFin.value = null;
+            fechaFin.min = event.target.options[event.target.selectedIndex].getAttribute("data-fecha-fin");
+        };
+
+        if (vehiculo.options.length > 0) {
+            fechaFin.min = vehiculo.options[0].getAttribute("data-fecha-fin");
+        }
+    </script>
+}
